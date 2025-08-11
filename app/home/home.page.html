@@ -1,0 +1,88 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Home</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+    <ion-card *ngIf="this.tripService.getCurrentTrip() && this.tripService.getCurrentTrip()?.journeyName">
+      <ion-card-header>
+        Current Trip Details
+      </ion-card-header>
+      <ion-card-title class="ion-padding">
+        Journey Name: {{ this.tripService.getCurrentTrip()?.journeyName }}
+      </ion-card-title>
+      <ion-card-subtitle class="ion-padding">
+        Date started: {{ this.tripService.getCurrentTrip()?.dateStarted}}
+      </ion-card-subtitle>
+      <ion-card-content>
+        <ion-label>Add Location</ion-label>
+          <ion-item>
+            <ion-input [(ngModel)]="newLocation" name="newLocation" type="text" placeholder="Location Name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input [(ngModel)]="newLocationDate" name="newLocationDate" type="date"></ion-input>
+          </ion-item>
+
+          <ion-button (click)="mapSelector()">Select Location</ion-button>
+        <ion-button (click)="addLocation()">Add</ion-button>
+      </ion-card-content>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let location of this.tripService.getCurrentTrip()?.locations; let i = index">
+            {{ location }} ({{ getCurrentTripLocationDates(i) || ''}}) 
+            <ion-button (click)="viewLocation(i)" slot="end">View on Map</ion-button>
+            <ion-button (click)="removeLocation(i)" color="danger" slot="end">Delete</ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+      <ion-card-content>
+        <ion-label>Upload Images</ion-label>
+        <ion-item>
+          <ion-label>Image Name:</ion-label>
+          <ion-input [(ngModel)]="imageName" type="text" placeholder="Enter image name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label>Location:</ion-label>
+          <ion-select [(ngModel)]="selectedLocationIndex" (ionChange)="onLocationSelectChange()" placeholder="Select Location">
+            <ion-select-option *ngFor="let location of this.tripService.getCurrentTrip()?.locations; let i = index" [value]="i">
+              {{ location }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <input id="fileInput" type="file" accept="image/*" (change)="prepareImage($event)">
+        </ion-item>
+        <ion-button (click)="uploadImage()">Upload</ion-button>
+      </ion-card-content>
+
+      <ion-card-content>
+        <ion-label>Images by Location</ion-label>
+        <div *ngFor="let location of this.tripService.getCurrentTrip()?.locations; let i = index">
+          <!-- Label for each location -->
+          <ion-label class="ion-padding">{{ location }}</ion-label>
+          <ion-list *ngIf="imageGroups[i] && imageGroups[i].length">
+            <!-- Display images in each image location section -->
+            <ion-item *ngFor="let image of imageGroups[i]">
+              <ion-thumbnail slot="start">
+                <img [src]="image.imageURL">
+              </ion-thumbnail>
+              <ion-label>{{ image.imageName }}</ion-label>
+            </ion-item>
+          </ion-list>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-button *ngIf="!this.tripService.getCurrentTrip()" (click)="addNewTrip()">
+      Create Trip
+    </ion-button>
+  </ion-content>
+</ion-content>

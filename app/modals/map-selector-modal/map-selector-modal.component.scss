@@ -1,0 +1,25 @@
+:host {
+    display: block;
+    height: 100%;
+  }
+  
+  #map {
+    height: 100%;
+  }
+
+  .modal-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .modal-content {
+    flex: 1;
+    overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  }
+  
+  .modal-footer {
+    margin-top: auto; /* Push the footer to the bottom */
+  }
+  
+  

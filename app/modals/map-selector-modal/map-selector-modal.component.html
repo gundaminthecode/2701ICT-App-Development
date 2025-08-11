@@ -1,0 +1,23 @@
+<div class="modal-container">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Location Selector</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="closeModal()">Close</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="modal-content">
+    <div #map id="map"></div>
+  </ion-content>
+
+  <!-- submit button only appears in select mode -->
+  <ion-footer class="modal-footer" *ngIf="showSubmitButton">
+    <ion-toolbar>
+      <ion-buttons slot="end">
+        <ion-button (click)="submitModal()">Submit</ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-footer>
+</div>

@@ -1,0 +1,36 @@
+<ion-item>
+  <p>{{journeyNumber}}. {{journeyName}}, {{locationsVisited}} Locations</p>
+  <ion-button fill="clear" slot="end" (click)="toggleDropdown()">
+    <ion-icon slot="icon-only" [name]="dropdownVisible ? 'chevron-up' : 'chevron-down'"></ion-icon>
+  </ion-button>
+</ion-item>
+<ion-item *ngIf="dropdownVisible" class="dropdown-content">
+  <ion-list>
+    <ion-item>View Images
+      <ion-button fill="clear" slot="end" (click)="toggleImagesDropdown()">
+        <ion-icon slot="icon-only" [name]="imagesDropdownVisible ? 'chevron-up' : 'chevron-down'"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <!-- View image Dropdown -->
+    <ion-item *ngIf="imagesDropdownVisible" class="images-dropdown-content">
+      <ion-list>
+        <ion-item *ngFor="let image of images">
+          <ion-thumbnail slot="start">
+            <img [src]="image.imageURL">
+          </ion-thumbnail>
+          <ion-label>{{ image.imageName }}</ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-item>
+    <!-- Fake Share Button -->
+    <ion-item button (click)="shareTrip()">Share Trip</ion-item>
+  </ion-list>
+</ion-item>
+<ion-item-options>
+  <ion-item-option color="success" (click)="editTrip(trip)">
+    Edit
+  </ion-item-option>
+  <ion-item-option color="danger" (click)="deleteTrip(trip)">
+    Delete
+  </ion-item-option>
+</ion-item-options>
